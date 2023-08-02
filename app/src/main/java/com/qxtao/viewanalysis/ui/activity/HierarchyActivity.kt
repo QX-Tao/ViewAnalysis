@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import androidx.core.view.WindowCompat
@@ -18,7 +20,9 @@ import com.qxtao.viewanalysis.ui.widget.hierarchyview.HierarchyDetailView
 import com.qxtao.viewanalysis.ui.widget.hierarchyview.HierarchyView
 import com.qxtao.viewanalysis.ui.widget.layoutinfoview.LayoutInfoView
 import com.qxtao.viewanalysis.ui.widget.layoutinfoview.OnNodeChangedListener
+import com.qxtao.viewanalysis.utils.common.UiUtils
 import com.qxtao.viewanalysis.utils.factory.JsonHelper
+import java.lang.ref.WeakReference
 
 
 class HierarchyActivity : Activity(),
@@ -28,6 +32,8 @@ class HierarchyActivity : Activity(),
     private var nodeMap: HashMap<Long, HierarchyNode>? = null
     private var showHierarchyView = false
     private lateinit var context: Context
+    private val handler = Handler()
+    private lateinit var runnable: Runnable
     // define widget
     private lateinit var hierarchyView: HierarchyView
     private lateinit var hierarchyDetailView: HierarchyDetailView
@@ -47,9 +53,9 @@ class HierarchyActivity : Activity(),
         }
 
         private var receiver = object : BroadcastReceiver() {
-            private var reference: java.lang.ref.WeakReference<Activity>? = null
+            private var reference: WeakReference<Activity>? = null
             fun setActivity(activity: Activity) {
-                reference = java.lang.ref.WeakReference(activity)
+                reference = WeakReference(activity)
             }
 
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -60,17 +66,17 @@ class HierarchyActivity : Activity(),
                 }
             }
         }
+
+        private var currentOrientation = 0
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hierarchy)
         context = this
-
         bindViews()
-
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
+        currentOrientation = UiUtils.getScreenRotation(this)
         intent?.run {
             nodeList = getParcelableArrayListExtra("node")
             checkNodeList()
@@ -144,7 +150,35 @@ class HierarchyActivity : Activity(),
     override fun onDestroy() {
         FloatWindowService.setFloatButtonVisible(this, true)
         unregisterReceiver(receiver)
+        if (showHierarchyView) finish()
         super.onDestroy()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        startOrientationChangeDetection()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        stopOrientationChangeDetection()
+    }
+
+    private fun startOrientationChangeDetection() {
+        runnable = object : Runnable {
+            override fun run() {
+                val newOrientation = UiUtils.getScreenRotation(this@HierarchyActivity)
+                if (newOrientation != currentOrientation) {
+                    currentOrientation = newOrientation
+                    if (showHierarchyView) finish()
+                }
+                handler.postDelayed(this, 320)
+            }
+        }
+        handler.postDelayed(runnable, 320)
+    }
+    private fun stopOrientationChangeDetection() {
+        handler.removeCallbacks(runnable)
     }
 
 }

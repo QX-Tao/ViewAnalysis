@@ -1,10 +1,12 @@
 package com.qxtao.viewanalysis.utils.common
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.WindowManager
+import com.blankj.utilcode.util.ScreenUtils
 
 
 object UiUtils {
@@ -66,6 +68,13 @@ object UiUtils {
         }
         statusBarHeight = result ?: 0
         return statusBarHeight
+    }
+
+    /**
+     * 获取屏幕方向
+     */
+    fun getScreenRotation(activity: Activity): Int{
+        return ScreenUtils.getScreenRotation(activity)
     }
 
 }

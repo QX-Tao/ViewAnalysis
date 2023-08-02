@@ -13,6 +13,8 @@ import android.widget.PopupMenu
 import android.widget.RelativeLayout
 import android.widget.ToggleButton
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelProvider
 import com.blankj.utilcode.util.ScreenUtils
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.qxtao.viewanalysis.R
