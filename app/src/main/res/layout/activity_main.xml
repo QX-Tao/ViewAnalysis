@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
-    android:background="@color/colorThemeBackground"
     tools:context=".ui.activity.MainActivity">
 
     <LinearLayout
+        android:id="@+id/ll_root_frame"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:orientation="vertical">
@@ -30,7 +30,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"
-                    android:paddingStart="16dp"
+                    android:paddingStart="20dp"
                     android:paddingEnd="0dp"
                     android:paddingTop="12dp"
                     android:paddingBottom="8dp"
@@ -52,7 +52,7 @@
                         android:layout_height="24dp"
                         android:src="@drawable/ic_accessibility"
                         android:layout_alignParentStart="true"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="20dp"
                         android:layout_marginEnd="24dp"
                         android:layout_centerVertical="true"
                         android:scaleType="centerCrop" />
@@ -82,7 +82,7 @@
                         android:id="@+id/st_accessibility"
                         android:layout_alignParentEnd="true"
                         android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginEnd="20dp"
                         android:layout_centerVertical="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
@@ -106,7 +106,7 @@
                         android:layout_height="24dp"
                         android:src="@drawable/ic_float_window"
                         android:layout_alignParentStart="true"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="20dp"
                         android:layout_marginEnd="24dp"
                         android:layout_centerVertical="true"
                         android:scaleType="centerCrop" />
@@ -136,7 +136,7 @@
                         android:id="@+id/st_float_window"
                         android:layout_alignParentEnd="true"
                         android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginEnd="20dp"
                         android:layout_centerVertical="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
@@ -147,7 +147,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"
-                    android:paddingStart="16dp"
+                    android:paddingStart="20dp"
                     android:paddingEnd="0dp"
                     android:paddingTop="12dp"
                     android:paddingBottom="8dp"
@@ -169,7 +169,7 @@
                         android:layout_height="24dp"
                         android:src="@drawable/ic_root_permission"
                         android:layout_alignParentStart="true"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="20dp"
                         android:layout_marginEnd="24dp"
                         android:layout_centerVertical="true"
                         android:scaleType="centerCrop" />
@@ -208,7 +208,7 @@
                         android:id="@+id/st_root"
                         android:layout_alignParentEnd="true"
                         android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginEnd="20dp"
                         android:layout_centerVertical="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
@@ -221,29 +221,17 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/bt_stop_service"
+    <com.qxtao.viewanalysis.ui.widget.custom.CustomToggleButton
+        android:id="@+id/bt_service_control"
         android:textColor="@color/white"
-        android:backgroundTint="@color/theme_color_mar"
+        android:background="@color/trans"
+        android:textOn="@string/stop_service"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/stop_service" />
-
-    <Button
-        android:id="@+id/bt_start_service"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/theme_color_gap"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/start_service" />
+        android:layout_width="105dp"
+        android:layout_height="40dp"
+        android:textOff="@string/start_service" />
 
 </RelativeLayout>

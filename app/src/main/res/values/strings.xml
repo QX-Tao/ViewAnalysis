@@ -6,6 +6,7 @@
     <string name="accessibility_service_label">界面布局分析</string>
     <string name="start_service">开启服务</string>
     <string name="stop_service">停止服务</string>
+    <string name="click_quickly">请勿连续点击</string>
     <string name="get_accessibility_permission">获取无障碍权限</string>
     <string name="accessibility_permission">无障碍权限</string>
     <string name="get_drawing_permission">获取截图权限</string>

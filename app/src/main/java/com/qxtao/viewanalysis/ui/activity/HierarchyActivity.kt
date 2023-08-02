@@ -5,10 +5,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
+import androidx.core.view.WindowCompat
 import com.google.gson.reflect.TypeToken
 import com.qxtao.viewanalysis.R
 import com.qxtao.viewanalysis.common.HierarchyNode
@@ -18,7 +18,6 @@ import com.qxtao.viewanalysis.ui.widget.hierarchyview.HierarchyDetailView
 import com.qxtao.viewanalysis.ui.widget.hierarchyview.HierarchyView
 import com.qxtao.viewanalysis.ui.widget.layoutinfoview.LayoutInfoView
 import com.qxtao.viewanalysis.ui.widget.layoutinfoview.OnNodeChangedListener
-import com.qxtao.viewanalysis.utils.common.UiUtils
 import com.qxtao.viewanalysis.utils.factory.JsonHelper
 
 
@@ -70,10 +69,7 @@ class HierarchyActivity : Activity(),
 
         bindViews()
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.setDecorFitsSystemWindows(false)
-        }
-        flHierarchy.setPadding(0, UiUtils.getStatusHeight(),0,0)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         intent?.run {
             nodeList = getParcelableArrayListExtra("node")

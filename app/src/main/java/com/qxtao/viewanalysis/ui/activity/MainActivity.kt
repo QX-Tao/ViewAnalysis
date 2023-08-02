@@ -9,9 +9,11 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
 import android.widget.PopupMenu
 import android.widget.RelativeLayout
+import android.widget.ToggleButton
+import androidx.core.view.WindowCompat
+import com.blankj.utilcode.util.ScreenUtils
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.qxtao.viewanalysis.R
 import com.qxtao.viewanalysis.base.BaseActivity
@@ -21,21 +23,29 @@ import com.qxtao.viewanalysis.service.FloatWindowService
 import com.qxtao.viewanalysis.service.ViewAnalysisAccessibilityService
 import com.qxtao.viewanalysis.utils.common.ShareUtils
 import com.qxtao.viewanalysis.utils.common.ShellUtils
+import com.qxtao.viewanalysis.utils.common.UiUtils
+import java.util.Timer
+import kotlin.concurrent.schedule
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
     // define widget
     private lateinit var rlAccessibilityPermission: RelativeLayout
     private lateinit var rlFloatWindowPermission: RelativeLayout
     private lateinit var rlRootPermission: RelativeLayout
-    private lateinit var btStartService: Button
-    private lateinit var btStopService: Button
+    private lateinit var btServiceControl: ToggleButton
     private lateinit var stAccessibility: MaterialSwitch
     private lateinit var stFloatWindow: MaterialSwitch
     private lateinit var stRoot: MaterialSwitch
+    // define variable
+    private var isButtonClickable: Boolean = true
 
     override fun onCreate() {
         binding.includeTitleBarFirst.tvTitle.text = getString(R.string.app_name)
         binding.includeTitleBarFirst.ivMoreButton.setOnClickListener { showPopupMenu(binding.includeTitleBarFirst.ivMoreButton) }
+        if (ScreenUtils.isLandscape()) binding.llRootFrame.setPadding(
+            maxOf(0, UiUtils.getDeviceHeight(mContext) - UiUtils.dp2px(mContext,200F)),0,
+            maxOf(0, UiUtils.getDeviceHeight(mContext) - UiUtils.dp2px(mContext,200F)),0
+        )
         if (isUseRoot()){
             if (!getPermissionStatus().contentEquals(intArrayOf(1,1))){
                 ShellUtils.allowPermissionByRoot()
@@ -43,14 +53,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 refreshPermissionStatus()
             }
         }
+        WindowCompat.setDecorFitsSystemWindows(window, false)
     }
 
     override fun bindViews() {
         rlAccessibilityPermission = binding.rlAccessibilityPermission
         rlFloatWindowPermission = binding.rlFloatWindowPermission
         rlRootPermission = binding.rlRootPermission
-        btStartService = binding.btStartService
-        btStopService = binding.btStopService
+        btServiceControl = binding.btServiceControl
         stAccessibility = binding.stAccessibility
         stFloatWindow = binding.stFloatWindow
         stRoot = binding.stRoot
@@ -66,17 +76,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         rlAccessibilityPermission.setOnClickListener(this)
         rlFloatWindowPermission.setOnClickListener(this)
         rlRootPermission.setOnClickListener(this)
-        btStartService.setOnClickListener(this)
-        btStopService.setOnClickListener(this)
+        btServiceControl.setOnClickListener(this)
     }
 
-    override fun onClick(v: View) {
-        when(v){
+    override fun onClick(view: View) {
+        when(view){
             rlAccessibilityPermission -> getAccessibilityPermission()
             rlFloatWindowPermission -> getFloatWindowPermission()
             rlRootPermission -> getRootPermission()
-            btStartService -> startService()
-            btStopService -> stopService()
+            btServiceControl -> if (isButtonClickable) serviceControl() else {
+                showShortToast(getString(R.string.click_quickly))
+                refreshServiceStatus()
+            }
         }
     }
 
@@ -172,33 +183,31 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    private fun startService(){
-        if (!isAccessibilitySettingsOn(mContext)) {
-            showShortToast(getString(R.string.accessibility_service_off))
-            return
+    private fun serviceControl(){
+        if (btServiceControl.isChecked){
+            if (!isAccessibilitySettingsOn(mContext)) {
+                showShortToast(getString(R.string.accessibility_service_off))
+                btServiceControl.isChecked = false
+                return
+            }
+            if (!isFloatWindowPermissionOn(mContext)) {
+                showShortToast(getString(R.string.float_window_service_off))
+                btServiceControl.isChecked = false
+                return
+            }
+            FloatWindowService.start(this)
+            if (FloatWindowService.isServiceRunning()) finish()
+        } else {
+            FloatWindowService.stop(this)
+            isButtonClickable = false
+            Timer().schedule(500){ isButtonClickable = true }
         }
-        if (!isFloatWindowPermissionOn(mContext)) {
-            showShortToast(getString(R.string.float_window_service_off))
-            return
-        }
-        FloatWindowService.start(this)
         refreshServiceStatus()
-        finish()
     }
 
-    private fun stopService(){
-        FloatWindowService.stop(this)
-        refreshServiceStatus()
-    }
 
     private fun refreshServiceStatus(){
-        if (!FloatWindowService.isServiceRunning()) {
-            btStartService.visibility = View.VISIBLE
-            btStopService.visibility = View.GONE
-        } else {
-            btStartService.visibility = View.GONE
-            btStopService.visibility = View.VISIBLE
-        }
+        btServiceControl.isChecked = FloatWindowService.isServiceRunning()
     }
 
     private fun refreshPermissionStatus(){

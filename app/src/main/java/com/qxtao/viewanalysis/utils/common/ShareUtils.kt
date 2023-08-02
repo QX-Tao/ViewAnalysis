@@ -3,11 +3,6 @@ package com.qxtao.viewanalysis.utils.common
 import android.content.Context
 import androidx.preference.PreferenceManager
 
-/**
- * @author: PanYiTao
- * @date: 2022/08/16 22:27
- * @description: SharedPreferences Tool.
- */
 object ShareUtils {
     fun putString(mContext: Context?, key: String?, value: String?) {
         val sp = PreferenceManager.getDefaultSharedPreferences(

@@ -83,7 +83,8 @@ class FloatWindowService : Service() {
         try {
             EasyFloat.dismiss(FLOAT_BUTTON)
             unregisterReceiver(receiver)
-            stopForeground(true)
+            stopForeground(STOP_FOREGROUND_REMOVE)
+            stopSelf()
         } catch (_: Throwable) {
         }
 

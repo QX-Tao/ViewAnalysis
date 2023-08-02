@@ -14,7 +14,6 @@ import com.qxtao.viewanalysis.common.HierarchyNode
 import com.qxtao.viewanalysis.constant.Constant.ACTION_ACCESSIBILITY_SERVICE_STATUS_CHANGED
 import com.qxtao.viewanalysis.constant.Constant.ACTION_HIERARCHY_VIEW
 import com.qxtao.viewanalysis.ui.activity.HierarchyActivity
-import com.qxtao.viewanalysis.utils.common.UiUtils
 
 class ViewAnalysisAccessibilityService : AccessibilityService() {
     private val receiver = ViewAnalysisAccessibilityReceiver()
@@ -121,7 +120,7 @@ class ViewAnalysisAccessibilityService : AccessibilityService() {
             val parentRect = Rect()
             child.getBoundsInScreen(screenRect)
             child.getBoundsInParent(parentRect)
-            screenRect.offset(0, -UiUtils.getStatusHeight())
+            screenRect.offset(0, 0)
             val node = HierarchyNode()
             setNodeId(node)
             if (parentNode != null) {

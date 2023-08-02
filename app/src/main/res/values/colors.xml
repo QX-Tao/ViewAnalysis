@@ -19,26 +19,26 @@
     <color name="whiteTextColor">#FFFFFFFF</color>
     <color name="rippleColor">#253C4043</color>
     <color name="lineColor">#FF4F5355</color>
-    <color name="hierarchyColor">#FF777777</color>
+    <color name="hierarchyColor">#66000000</color>
     <color name="divideColor">#FFF0F2F5</color>
     <color name="nullColor">#00000000</color>
     <color name="coverColor">#e4e4e4</color>
 
     <color name="darker_gray">#FFAAAAAA</color>
 
-    <color name="theme_color_blp">#fb7299</color>
-    <color name="theme_color_gol">#ffbb33</color>
-    <color name="theme_color_cag">#0f9d58</color>
-    <color name="theme_color_ftb">#2196f3</color>
-    <color name="theme_color_ghp">#aa66cc</color>
-    <color name="theme_color_mar">#db4437</color>
-    <color name="theme_color_tpo">#ff8833</color>
-    <color name="theme_color_tlg">#009688</color>
-    <color name="theme_color_ryb">#4169e1</color>
-    <color name="theme_color_gap">#673ab7</color>
-    <color name="theme_color_lgn">#4caf50</color>
-    <color name="theme_color_jis">#ff5252</color>
-    <color name="theme_color_gts">#e4e4e4</color>
-    <color name="theme_color_yld">#ffc107</color>
+    <color name="theme_color_blp">#fffb7299</color>
+    <color name="theme_color_gol">#ffffbb33</color>
+    <color name="theme_color_cag">#ff0f9d58</color>
+    <color name="theme_color_ftb">#ff2196f3</color>
+    <color name="theme_color_ghp">#ffaa66cc</color>
+    <color name="theme_color_mar">#ffdb4437</color>
+    <color name="theme_color_tpo">#ffff8833</color>
+    <color name="theme_color_tlg">#ff009688</color>
+    <color name="theme_color_ryb">#ff4169e1</color>
+    <color name="theme_color_gap">#ff673ab7</color>
+    <color name="theme_color_lgn">#ff4caf50</color>
+    <color name="theme_color_jis">#ffff5252</color>
+    <color name="theme_color_gts">#ffe4e4e4</color>
+    <color name="theme_color_yld">#ffffc107</color>
 
 </resources>

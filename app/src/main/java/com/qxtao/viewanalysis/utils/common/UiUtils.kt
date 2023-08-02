@@ -1,7 +1,11 @@
 package com.qxtao.viewanalysis.utils.common
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.util.DisplayMetrics
 import android.util.TypedValue
+import android.view.WindowManager
+
 
 object UiUtils {
     private var statusBarHeight: Int = -1
@@ -30,21 +34,26 @@ object UiUtils {
      * 获取屏幕高度
      */
     fun getDeviceHeight(context: Context = CommonUtils.application): Int {
-        val dm = context.resources?.displayMetrics
-        return dm?.heightPixels ?: 0
+        val displayMetrics = DisplayMetrics()
+        val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        windowManager.defaultDisplay.getRealMetrics(displayMetrics)
+        return displayMetrics.heightPixels
     }
 
     /**
      * 获取屏幕宽度
      */
     fun getDeviceWidth(context: Context = CommonUtils.application): Int {
-        val dm = context.resources?.displayMetrics
-        return dm?.widthPixels ?: 0
+        val displayMetrics = DisplayMetrics()
+        val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        windowManager.defaultDisplay.getRealMetrics(displayMetrics)
+        return displayMetrics.widthPixels
     }
 
     /**
      * 获取状态栏的高度
      */
+    @SuppressLint("InternalInsetResource", "DiscouragedApi")
     fun getStatusHeight(context: Context = CommonUtils.application): Int {
         if (statusBarHeight != -1) {
             return statusBarHeight
@@ -58,4 +67,5 @@ object UiUtils {
         statusBarHeight = result ?: 0
         return statusBarHeight
     }
+
 }

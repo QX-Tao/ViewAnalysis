@@ -1,5 +1,6 @@
 package com.qxtao.viewanalysis.ui.widget.layoutinfoview
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -42,6 +43,7 @@ class LayoutInfoViewPagerAdapter(
         onNodeChangedListener = listener
     }
 
+    @SuppressLint("InflateParams")
     private fun initViewTreeTab() {
         tabList.add("ViewTree")
         graphView = LayoutInflater.from(context).inflate(R.layout.layout_hierarchy_tree, null) as GraphView
@@ -185,7 +187,7 @@ class LayoutInfoViewPagerAdapter(
         container.removeView(obj as View)
     }
 
-    override fun getPageTitle(position: Int): CharSequence? {
+    override fun getPageTitle(position: Int): CharSequence {
         return tabList[position]
     }
 }

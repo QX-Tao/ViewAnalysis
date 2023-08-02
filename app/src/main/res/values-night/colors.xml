@@ -8,7 +8,7 @@
     <color name="colorItemContentText">#8A000000</color>
     <color name="colorThemeBackground">#FF2D2D2D</color>
     <color name="rippleColor">#14FFFFFF</color>
-    <color name="hierarchyColor">#FF777777</color>
+    <color name="hierarchyColor">#66000000</color>
     <color name="colorTextDark">#FF777777</color>
     <color name="colorTextGray">#FF323B42</color>
     <color name="firstTextColor">#FFFFFFFF</color>
