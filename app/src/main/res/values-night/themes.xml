@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.ViewAnalysis" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+    </style>
+
+    <style name="Theme.ViewAnalysis" parent="Base.Theme.ViewAnalysis" >
+        <item name="android:statusBarColor">@color/colorThemeBackground</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+</resources>

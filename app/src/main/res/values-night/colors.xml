@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FF664FA2</color>
+    <color name="colorPrimaryDark">#FF362A56</color>
+    <color name="colorAccent">#FFFFAB40</color>
+    <color name="colorAccentLight">#FFFFC77F</color>
+    <color name="colorItemTitleText">#DE000000</color>
+    <color name="colorItemContentText">#8A000000</color>
+    <color name="colorThemeBackground">#FF2D2D2D</color>
+    <color name="rippleColor">#14FFFFFF</color>
+    <color name="hierarchyColor">#FF777777</color>
+    <color name="colorTextDark">#FF777777</color>
+    <color name="colorTextGray">#FF323B42</color>
+    <color name="firstTextColor">#FFFFFFFF</color>
+    <color name="secondTextColor">#DEFFFFFF</color>
+    <color name="thirdTextColor">#99FFFFFF</color>
+</resources>
