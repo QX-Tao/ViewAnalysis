@@ -13,6 +13,7 @@ import android.view.accessibility.AccessibilityNodeInfo
 import com.qxtao.viewanalysis.common.HierarchyNode
 import com.qxtao.viewanalysis.constant.Constant.ACTION_ACCESSIBILITY_SERVICE_STATUS_CHANGED
 import com.qxtao.viewanalysis.constant.Constant.ACTION_HIERARCHY_VIEW
+import com.qxtao.viewanalysis.constant.Constant.ACTION_SEND_CURRENT_ACTIVITY
 import com.qxtao.viewanalysis.ui.activity.HierarchyActivity
 
 class ViewAnalysisAccessibilityService : AccessibilityService() {
@@ -40,6 +41,7 @@ class ViewAnalysisAccessibilityService : AccessibilityService() {
                     var activityName = packageManager.getActivityInfo(componentName, 0).toString()
                     activityName = activityName.substring(activityName.indexOf(" "), activityName.indexOf("}"))
                     activity = activityName.trim()
+                    sendStatusBroadcast(activity.toString())
                 } catch (e: PackageManager.NameNotFoundException) {
                     e.printStackTrace()
                 }
@@ -100,6 +102,12 @@ class ViewAnalysisAccessibilityService : AccessibilityService() {
     private fun sendStatusBroadcast(running: Boolean) {
         val intent = Intent(ACTION_ACCESSIBILITY_SERVICE_STATUS_CHANGED)
         intent.putExtra("status", running)
+        sendBroadcast(intent)
+    }
+
+    private fun sendStatusBroadcast(currentActivity: String) {
+        val intent = Intent(ACTION_SEND_CURRENT_ACTIVITY)
+        intent.putExtra("currentActivity", currentActivity)
         sendBroadcast(intent)
     }
 

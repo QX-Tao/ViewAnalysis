@@ -15,6 +15,8 @@ import com.qxtao.viewanalysis.constant.Constant
 import com.qxtao.viewanalysis.utils.common.UiUtils
 
 class FloatWindowService : Service() {
+    private var currentActivity:String? = null
+    private var viewAnalysisAccessibilityService: ViewAnalysisAccessibilityService? = null
     companion object {
         private var isServiceRunning = false
         const val FLOAT_BUTTON = "floatButton"
@@ -40,6 +42,7 @@ class FloatWindowService : Service() {
     override fun onCreate() {
         super.onCreate()
         initReceiver()
+        viewAnalysisAccessibilityService = ViewAnalysisAccessibilityService()
         EasyFloat
             .with(applicationContext)
             .setTag(FLOAT_BUTTON)
@@ -50,6 +53,8 @@ class FloatWindowService : Service() {
                         AccessibilityManager.startService()
                         return@setOnClickListener
                     }
+                    if (currentActivity.toString().contains(packageName).not())
+                        sendBroadcast(Intent(Constant.ACTION_FINISH_MAIN_ACTIVITY))
                     sendBroadcast(Intent(Constant.ACTION_HIERARCHY_VIEW))
                 }
             }
@@ -70,8 +75,10 @@ class FloatWindowService : Service() {
     }
 
     private fun initReceiver() {
-        val filter = IntentFilter(Constant.ACTION_SET_FLOAT_BUTTON_VISIBLE)
-        registerReceiver(receiver, filter)
+        val filter1 = IntentFilter(Constant.ACTION_SET_FLOAT_BUTTON_VISIBLE)
+        val filter2 = IntentFilter(Constant.ACTION_SEND_CURRENT_ACTIVITY)
+        registerReceiver(receiver, filter1)
+        registerReceiver(receiver, filter2)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -105,9 +112,11 @@ class FloatWindowService : Service() {
                         hideFloatButton()
                     }
                 }
+                Constant.ACTION_SEND_CURRENT_ACTIVITY -> {
+                    currentActivity = intent.getStringExtra("currentActivity")
+                }
             }
         }
-
     }
 
 }

@@ -1,8 +1,11 @@
 package com.qxtao.viewanalysis.ui.activity
 
+import android.app.Activity
+import android.content.BroadcastReceiver
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.provider.Settings
 import android.text.TextUtils
@@ -13,12 +16,11 @@ import android.widget.PopupMenu
 import android.widget.RelativeLayout
 import android.widget.ToggleButton
 import androidx.core.view.WindowCompat
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModelProvider
 import com.blankj.utilcode.util.ScreenUtils
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.qxtao.viewanalysis.R
 import com.qxtao.viewanalysis.base.BaseActivity
+import com.qxtao.viewanalysis.constant.Constant
 import com.qxtao.viewanalysis.constant.Constant.USE_ROOT
 import com.qxtao.viewanalysis.databinding.ActivityMainBinding
 import com.qxtao.viewanalysis.service.FloatWindowService
@@ -26,6 +28,7 @@ import com.qxtao.viewanalysis.service.ViewAnalysisAccessibilityService
 import com.qxtao.viewanalysis.utils.common.ShareUtils
 import com.qxtao.viewanalysis.utils.common.ShellUtils
 import com.qxtao.viewanalysis.utils.common.UiUtils
+import java.lang.ref.WeakReference
 import java.util.Timer
 import kotlin.concurrent.schedule
 
@@ -40,6 +43,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private lateinit var stRoot: MaterialSwitch
     // define variable
     private var isButtonClickable: Boolean = true
+
+    companion object{
+        private var receiver = object : BroadcastReceiver() {
+            private var reference: WeakReference<Activity>? = null
+            fun setActivity(activity: Activity) {
+                reference = WeakReference(activity)
+            }
+
+            override fun onReceive(context: Context?, intent: Intent?) {
+                when (intent?.action) {
+                    Constant.ACTION_FINISH_MAIN_ACTIVITY -> {
+                        reference?.get()?.finish()
+                    }
+                }
+            }
+        }
+    }
 
     override fun onCreate() {
         binding.includeTitleBarFirst.tvTitle.text = getString(R.string.app_name)
@@ -56,6 +76,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             }
         }
         WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        val filter = IntentFilter(Constant.ACTION_FINISH_MAIN_ACTIVITY)
+        receiver.setActivity(this)
+        registerReceiver(receiver, filter)
     }
 
     override fun bindViews() {
@@ -270,6 +294,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         super.onResume()
         refreshPermissionStatus()
         refreshServiceStatus()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(receiver)
     }
 
 }

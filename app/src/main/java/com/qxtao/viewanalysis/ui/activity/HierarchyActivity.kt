@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import androidx.core.view.WindowCompat
@@ -91,6 +90,7 @@ class HierarchyActivity : Activity(),
         registerReceiver(receiver, filter)
         showHierarchyView()
         FloatWindowService.setFloatButtonVisible(this, false)
+        startOrientationChangeDetection()
     }
 
     private fun bindViews() {
@@ -150,18 +150,8 @@ class HierarchyActivity : Activity(),
     override fun onDestroy() {
         FloatWindowService.setFloatButtonVisible(this, true)
         unregisterReceiver(receiver)
-        if (showHierarchyView) finish()
-        super.onDestroy()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        startOrientationChangeDetection()
-    }
-
-    override fun onPause() {
-        super.onPause()
         stopOrientationChangeDetection()
+        super.onDestroy()
     }
 
     private fun startOrientationChangeDetection() {
@@ -170,7 +160,9 @@ class HierarchyActivity : Activity(),
                 val newOrientation = UiUtils.getScreenRotation(this@HierarchyActivity)
                 if (newOrientation != currentOrientation) {
                     currentOrientation = newOrientation
-                    if (showHierarchyView) finish()
+                    if (showHierarchyView) {
+                        sendBroadcast(Intent(ACTION_FINISH_HIERARCHY_ACTIVITY))
+                    }
                 }
                 handler.postDelayed(this, 320)
             }

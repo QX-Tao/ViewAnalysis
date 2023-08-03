@@ -12,7 +12,7 @@
     <string name="get_drawing_permission">获取截图权限</string>
     <string name="float_window_permission">悬浮窗权限</string>
     <string name="root_permission_title">开启Root权限</string>
-    <string name="root_permission_content">使用Root权限，用于简化操作，同时获取更多的界面信息</string>
+    <string name="root_permission_content">使用Root，用于获取必需权限，同时获取更多的界面信息，但这通常需要更多的时间</string>
     <string name="get_float_window_permission">获取悬浮窗权限</string>
     <string name="grant_float_window_permission">请找到“界面布局分析” 并打开悬浮窗权限</string>
     <string name="grant_accessibility_service">请找到“界面布局分析” 并打开无障碍功能</string>
