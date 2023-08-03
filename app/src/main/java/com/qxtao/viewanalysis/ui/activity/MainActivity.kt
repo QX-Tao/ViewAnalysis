@@ -16,6 +16,7 @@ import android.widget.PopupMenu
 import android.widget.RelativeLayout
 import android.widget.ToggleButton
 import androidx.core.view.WindowCompat
+import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.ScreenUtils
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.qxtao.viewanalysis.R
@@ -64,10 +65,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun onCreate() {
         binding.includeTitleBarFirst.tvTitle.text = getString(R.string.app_name)
         binding.includeTitleBarFirst.ivMoreButton.setOnClickListener { showPopupMenu(binding.includeTitleBarFirst.ivMoreButton) }
-        if (ScreenUtils.isLandscape()) binding.llRootFrame.setPadding(
-            maxOf(0, UiUtils.getDeviceHeight(mContext) - UiUtils.dp2px(mContext,200F)),0,
-            maxOf(0, UiUtils.getDeviceHeight(mContext) - UiUtils.dp2px(mContext,200F)),0
-        )
         if (isUseRoot()){
             if (!getPermissionStatus().contentEquals(intArrayOf(1,1))){
                 ShellUtils.allowPermissionByRoot()
